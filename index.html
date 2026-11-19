@@ -23,13 +23,55 @@
 body.details-on .map-style{right:415px}
 @media(max-width:1050px){body.details-on .map-style{right:378px}}
 @media(max-width:700px){.map-style,body.details-on .map-style{right:10px;top:80px}.map-style button{padding:7px 10px;font-size:10px}.leaflet-control-zoom{display:none}}
+
+/* SITE EXPLORER — cartography and contextual workforce profile */
+.map-style{background:#fff!important;box-shadow:0 9px 35px #103c5824;gap:3px!important;padding:5px 7px!important}
+.style-caption{font-size:9px;font-weight:900;letter-spacing:1.2px;color:#97a8b2;margin:0 8px 0 5px}
+.map-style button{min-width:65px;padding:9px 11px!important}
+#map.map-styled .leaflet-tile-pane{filter:saturate(.91)}
+.leaflet-tooltip.place-label,.leaflet-tooltip.anchor-permanent{font-family:Lato,Arial,sans-serif!important;white-space:nowrap;pointer-events:none!important;border:1px solid rgba(208,222,228,.95)!important;box-shadow:0 5px 15px #173d502c!important;border-radius:7px!important;background:#fffefef5!important;padding:5px 9px!important;color:#164966!important;font-weight:900!important;font-size:11px!important;line-height:1.2!important}
+.leaflet-tooltip.place-label{border-left:3px solid var(--gold)!important;font-size:12px!important;color:#004e84!important}
+.leaflet-tooltip.anchor-permanent{border-left:3px solid #0a96d4!important;font-size:10px!important;color:#255269!important}
+.leaflet-tooltip.anchor-permanent.quantum-label{border-left-color:#9a65c1!important}
+.leaflet-tooltip.anchor-permanent.life-label{border-left-color:#00a899!important}
+.leaflet-tooltip.place-label:before,.leaflet-tooltip.anchor-permanent:before{display:none!important}
+.talent-pop{position:absolute;z-index:1010;bottom:49px;left:340px;width:min(365px,calc(100vw - 755px));max-height:calc(100vh - 158px);background:#fff;border:1px solid #d7e7ee;box-shadow:0 15px 55px #102e4a38;border-radius:15px;overflow:hidden;animation:talent-in .25s ease-out}
+@keyframes talent-in{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+.talent-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 0;background:linear-gradient(115deg,#eff8fc,#fff)}
+.talent-head button{height:29px;width:29px;border:1px solid #dce8ed;border-radius:8px;color:#587587;font-size:20px;line-height:1;background:#fff}
+.talent-pop-body{overflow:auto;max-height:calc(100vh - 207px);padding:0 18px 18px}
+.talent-pop h2{font:700 24px 'Josefin Sans',sans-serif;color:var(--blue);margin:7px 0 6px}
+.talent-lede{font-size:11.5px;line-height:1.6;color:#657b88;margin:0 0 14px}
+.talent-metric{background:#00568d;color:white;border-radius:11px;display:flex;align-items:center;gap:13px;padding:13px 15px;margin-bottom:11px}
+.metric-value{font:700 32px 'Josefin Sans',sans-serif;white-space:nowrap}.metric-value small{font-size:16px}.metric-divider{width:1px;height:33px;background:#ffffff55}.metric-detail{font-size:11px;line-height:1.5;color:#d2e8f4}.metric-detail strong{color:white}
+.talent-section{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid #e8eff2}
+.talent-section-icon{flex:0 0 29px;align-self:flex-start;width:29px;height:29px;display:grid;place-items:center;border-radius:8px;font-size:17px;font-weight:900}
+.talent-section strong{display:block;font-size:12px;color:#214d63;margin-bottom:4px}.talent-section span{display:block;font-size:11px;color:#5a7583;line-height:1.5}.talent-section small{display:block;font-size:9px;color:#849ba8;line-height:1.55;margin-top:5px}
+.talent-caution{margin-top:13px;border-radius:8px;background:#fff8ec;border:1px solid #f5e5c5;color:#87673a;padding:10px 11px;font-size:10px;line-height:1.5}.talent-caution strong{color:#875b1e}
+.talent-reopen{position:absolute;z-index:1009;bottom:52px;left:340px;border:1px solid #bdd9e7;box-shadow:0 8px 18px #144b692e;background:white;border-radius:9px;color:#00568d;font-size:12px;font-weight:900;padding:11px 14px}
+.map-status{font-size:10px;color:#8296a3;padding-top:4px}
+@media(max-width:1270px){.talent-pop{width:315px;left:294px}.talent-reopen{left:294px}}
+@media(max-width:1050px){.talent-pop{left:290px;bottom:46px;width:290px}.talent-reopen{left:290px}}
+@media(max-width:800px){.talent-pop{left:auto;right:15px;top:159px;bottom:auto;width:min(345px,calc(100vw - 30px));max-height:calc(100vh - 420px)}.talent-pop-body{max-height:calc(100vh - 460px)}.talent-reopen{left:auto;right:15px;bottom:auto;top:160px}}
+@media(max-width:700px){.style-caption{display:none}.map-style{top:80px!important;right:9px!important}.map-style button{min-width:auto!important;padding:7px 8px!important;font-size:10px!important}.talent-pop{top:136px;left:9px;right:9px;width:auto;max-height:calc(100vh - 430px);min-height:150px}.talent-pop-body{max-height:calc(100vh - 470px)}.talent-reopen{top:138px;right:9px}.panel{max-height:37vh}.panel-bottom{max-height:16vh;overflow:auto}}
 </style>
 </head><body>
 <div id="map" aria-label="Interactive map of life and quantum science development sites"></div>
 <header class="top"><div class="brand"><img src="https://thinkmoco.com/wp-content/uploads/2026/08/MCEDC-Logos-RGB_MCEDC-FullColor-HOZ.png" alt="Montgomery County Maryland Economic Development Corporation"><div class="brand-rule"></div><div><div class="overline">Montgomery County · Site Selection</div><div class="brand-title">Life &amp; Quantum Sciences Explorer</div></div></div><div class="top-actions"><span class="top-badge">6 DEVELOPMENT SITES</span><button id="top-radius" class="top-toggle" aria-pressed="false">25-mile talent radius</button></div></header>
-<div class="map-style" role="group" aria-label="Choose map background"><button id="aerial-map" aria-pressed="true">Satellite</button><button id="streets-map" aria-pressed="false">Streets</button></div>
-<aside class="panel"><div class="panel-top"><div class="eyebrow">Explore the possibilities</div><h1>Find your place<br>in what’s next.</h1><p>Six development opportunities within one connected research and innovation ecosystem.</p></div><div class="list-caption"><span>Development locations</span><span>01 — 06</span></div><div class="site-list" id="sites"></div><div class="panel-bottom"><div class="control"><div><strong>Research &amp; talent anchors</strong><small>NIH, FDA, NIST, UMD and more</small></div><button id="anchor-switch" class="switch on" role="switch" aria-label="Toggle research anchors" aria-checked="true"></button></div><div class="control"><div><strong>Belward 25-mile labor shed</strong><small>Straight-line distance · toggle on map</small></div><button id="radius-switch" class="switch" role="switch" aria-label="Toggle 25-mile radius" aria-checked="false"></button></div><div class="talent hidden" id="talent"><h3>Talent profile · 25-mile study area</h3><p>Occupations to measure in the displayed catchment:</p><ul><li>Life science: medical scientists, biological scientists, biomedical engineers, biological technicians</li><li>Quantum: physicists, materials scientists, electrical engineers, computer researchers</li><li>Shared R&amp;D: software developers, data scientists, natural sciences managers</li></ul><span class="caution">25-mile worker counts have not yet been validated.</span></div><div class="legend"><span><i style="background:#00568d"></i>Sites</span><span><i style="background:#0a96d4"></i>Federal</span><span><i style="background:#9a65c1"></i>Quantum</span><span><i style="background:#00a899"></i>Life science</span><span><i style="background:#f9a51e"></i>Talent</span></div></div></aside>
-<div class="bottom-note"><b>Montgomery County, Maryland.</b> Site pins are approximate reference locations. Utility capacities and delivery timelines require independent confirmation.</div>
+<div class="map-style" role="group" aria-label="Choose map background"><span class="style-caption">MAP STYLE</span><button id="styled-map" aria-pressed="true">Explore</button><button id="streets-map" aria-pressed="false">Streets</button><button id="aerial-map" aria-pressed="false">Satellite</button></div>
+<aside class="panel"><div class="panel-top"><div class="eyebrow">Explore the possibilities</div><h1>Find your place<br>in what’s next.</h1><p>Six development opportunities within one connected research and innovation ecosystem.</p></div><div class="list-caption"><span>Development locations</span><span>01 — 06</span></div><div class="site-list" id="sites"></div><div class="panel-bottom"><div class="control"><div><strong>Research &amp; talent anchors</strong><small>NIH, FDA, NIST, UMD and more</small></div><button id="anchor-switch" class="switch on" role="switch" aria-label="Toggle research anchors" aria-checked="true"></button></div><div class="control"><div><strong>Belward 25-mile labor shed</strong><small>Straight-line distance · toggle on map</small></div><button id="radius-switch" class="switch" role="switch" aria-label="Toggle 25-mile radius" aria-checked="false"></button></div><div class="control"><div><strong>Show place labels</strong><small>Named research hubs &amp; priority sites</small></div><button id="labels-switch" class="switch on" role="switch" aria-label="Toggle map labels" aria-checked="true"></button></div>
+<div class="control"><div><strong>County boundary</strong><small>Montgomery County outline</small></div><button id="county-switch" class="switch on" role="switch" aria-label="Toggle Montgomery County boundary" aria-checked="true"></button></div><div class="legend"><span><i style="background:#00568d"></i>Sites</span><span><i style="background:#0a96d4"></i>Federal</span><span><i style="background:#9a65c1"></i>Quantum</span><span><i style="background:#00a899"></i>Life science</span><span><i style="background:#f9a51e"></i>Talent</span></div></div></aside>
+<section id="talent" class="talent-pop hidden" aria-label="Belward talent profile" aria-live="polite">
+  <div class="talent-head"><div class="eyebrow">TALENT ACCESS · BELWARD CAMPUS</div><button id="talent-dismiss" type="button" aria-label="Dismiss talent profile" title="Dismiss profile">×</button></div>
+  <div class="talent-pop-body"><h2>Talent within reach.</h2><p class="talent-lede">A 25-mile straight-line study area around Belward, encompassing the region's life sciences and quantum research ecosystem.</p>
+  <div class="talent-metric"><span class="metric-value">25 <small>mi</small></span><span class="metric-divider"></span><span class="metric-detail">Radius from Belward<br><strong>40.2 kilometers</strong></span></div>
+  <div class="talent-section"><div class="talent-section-icon" style="background:#e0f5f1;color:#028e81">◈</div><div><strong>Advanced life sciences</strong><span>Medical scientists · Biological scientists · Biomedical engineers · Laboratory technicians</span><small>19-1042 · 19-1029 · 17-2031 · 19-4021</small></div></div>
+  <div class="talent-section"><div class="talent-section-icon" style="background:#f2eafb;color:#7755a8">✦</div><div><strong>Quantum &amp; physical sciences</strong><span>Physicists · Materials scientists · Electrical engineers · Computer research scientists</span><small>19-2012 · 19-2032 · 17-2071 · 15-1221</small></div></div>
+  <div class="talent-section"><div class="talent-section-icon" style="background:#e7f3fc;color:#0d75a8">⌘</div><div><strong>Shared research workforce</strong><span>Software developers · Data scientists · Natural sciences managers</span><small>15-1252 · 15-2051 · 11-9121</small></div></div>
+  <div class="talent-caution"><strong>Workforce counts not yet available.</strong> The circle illustrates a geographic labor shed and target SOC occupations; it does not imply that these workers have been counted within 25 miles.</div></div>
+</section>
+<button id="talent-reopen" class="talent-reopen hidden" type="button" aria-label="Reopen talent profile">✦ &nbsp; Talent profile</button>
+<div class="bottom-note"><b>Montgomery County, Maryland.</b> <span id="county-status">Official county boundary loading…</span><br>Site pins are approximate reference locations. Utility capacities and delivery timelines require independent confirmation.</div>
 <aside class="info" id="info" aria-live="polite"><div class="info-hero"><button id="close" class="info-close" aria-label="Close site details">×</button><div id="info-index" class="info-idx"></div><h2 id="info-title"></h2><div id="info-address" class="info-address"></div><div id="info-status" class="info-status"></div></div><div class="tabs"><button data-tab="opportunity" class="on">Overview</button><button data-tab="infrastructure">Utilities</button><button data-tab="readiness">Readiness</button></div><div class="info-body" id="info-body"></div><div class="info-foot"><a id="source" href="#" target="_blank" rel="noopener noreferrer">Supporting source ↗</a><small>Preliminary · Nov 2026</small></div></aside>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>if(!window.L){document.write('<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"><\/script>');}</script>
@@ -38,6 +80,9 @@ const DB={"sites":[{"id":"belward","name":"Belward Campus","short":"Belward","ad
 const map=L.map('map',{zoomControl:false,scrollWheelZoom:true}).setView([39.11,-77.15],11);
 // True geographic basemaps: aerial photography (default) or OpenStreetMap street cartography.
 // Both are independent of MCEDC data overlays, which continue to work unchanged.
+const voyagerTiles=L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
+  subdomains:'abcd',maxZoom:19,attribution:'&copy; OpenStreetMap &copy; CARTO'
+});
 const streetTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
   subdomains:'abc',maxZoom:19,attribution:'&copy; OpenStreetMap contributors'
 });
@@ -45,26 +90,26 @@ const satelliteTiles=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/se
   maxZoom:19,attribution:'Imagery &copy; Esri, Maxar, Earthstar Geographics, GIS User Community'
 });
 const satellitePlaceLabels=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{
-  maxZoom:19,opacity:.88,attribution:'Labels &copy; Esri'
+  maxZoom:19,opacity:.83,attribution:'Labels &copy; Esri'
 });
-let activeBasemap='satellite', satelliteLoaded=false, satelliteErrors=0;
+let activeBasemap='styled', satelliteLoaded=false, satelliteErrors=0;
 function setBasemap(mode){
   activeBasemap=mode;
-  [streetTiles,satelliteTiles,satellitePlaceLabels].forEach(layer=>{if(map.hasLayer(layer))map.removeLayer(layer)});
+  [voyagerTiles,streetTiles,satelliteTiles,satellitePlaceLabels].forEach(layer=>{if(map.hasLayer(layer))map.removeLayer(layer)});
   if(mode==='satellite'){satelliteTiles.addTo(map);satellitePlaceLabels.addTo(map);}
-  else{streetTiles.addTo(map);}
-  document.getElementById('aerial-map').setAttribute('aria-pressed',String(mode==='satellite'));
-  document.getElementById('streets-map').setAttribute('aria-pressed',String(mode==='streets'));
-  // Keep selected real-world basemap beneath site and institution marker overlays.
+  else if(mode==='streets')streetTiles.addTo(map);
+  else voyagerTiles.addTo(map);
+  for(const [key,id] of [['styled','styled-map'],['satellite','aerial-map'],['streets','streets-map']])document.getElementById(id).setAttribute('aria-pressed',String(mode===key));
+  document.getElementById('map').classList.toggle('map-styled',mode==='styled');
   if(mode==='satellite'){satelliteTiles.bringToBack();satellitePlaceLabels.bringToFront();}
-  else{streetTiles.bringToBack();}
+  else if(mode==='streets')streetTiles.bringToBack();
+  else voyagerTiles.bringToBack();
+  // Custom county lines and site markers are vector/marker panes above the basemap.
 }
 satelliteTiles.on('tileload',()=>{satelliteLoaded=true});
-satelliteTiles.on('tileerror',()=>{if(activeBasemap==='satellite'&&!satelliteLoaded&&++satelliteErrors>=6)setBasemap('streets')});
-document.getElementById('aerial-map').addEventListener('click',()=>setBasemap('satellite'));
-document.getElementById('streets-map').addEventListener('click',()=>setBasemap('streets'));
-setBasemap('satellite');
-setTimeout(()=>{if(activeBasemap==='satellite'&&!satelliteLoaded)setBasemap('streets')},9000);
+satelliteTiles.on('tileerror',()=>{if(activeBasemap==='satellite'&&!satelliteLoaded&&++satelliteErrors>=6)setBasemap('styled')});
+for(const [id,mode] of [['styled-map','styled'],['aerial-map','satellite'],['streets-map','streets']])document.getElementById(id).addEventListener('click',()=>setBasemap(mode));
+setBasemap('styled');
 L.control.zoom({position:'topright'}).addTo(map);L.control.scale({imperial:true,metric:false,position:'bottomright'}).addTo(map);
 const sites=DB.sites;const anchors=DB.anchors;let selected=null,activeTab='opportunity',radiusOn=false,anchorsOn=true;
 const $=id=>document.getElementById(id);const escapeHtml=x=>String(x).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
@@ -72,15 +117,76 @@ const m={};const anchorLayer=L.layerGroup().addTo(map);
 const params=new URLSearchParams(window.location.search);
 const getCategory=c=>c==='federal'?'federal':c==='quantum'?'quantum':c==='life'?'life':'talent';
 const stxt=s=>s.short||s.name;
-function renderSiteList(){sites.forEach((s,i)=>{const btn=document.createElement('button');btn.className='site-row';btn.dataset.id=s.id;btn.innerHTML='<span class="s-num">'+String(i+1).padStart(2,'0')+'</span><span><div class="s-name">'+escapeHtml(stxt(s))+'</div><div class="s-city">'+escapeHtml(s.address.split(',').slice(-2).join(',').trim())+'</div></span><span class="s-chevron">›</span>';btn.addEventListener('click',()=>select(s.id));$('sites').append(btn);const icon=L.divIcon({className:'',html:'<div class="pin" id="pin-'+s.id+'"><strong>'+String(i+1).padStart(2,'0')+'</strong></div>',iconSize:[38,38],iconAnchor:[19,36]});m[s.id]=L.marker(s.coords,{icon}).addTo(map).bindTooltip(s.short||s.name,{className:'site-tip',direction:'top',offset:[0,-24]});m[s.id].on('click',()=>select(s.id));});}
-renderSiteList();anchors.forEach(a=>{let c=getCategory(a.category);let marker=L.marker(a.coords,{icon:L.divIcon({className:'',html:'<span class="anchor '+c+'"></span>',iconSize:[13,13],iconAnchor:[7,7]})});marker.bindTooltip('<b>'+escapeHtml(a.name)+'</b><br>'+escapeHtml(a.description||a.detail||''),{direction:'top',offset:[0,-8]});anchorLayer.addLayer(marker);});
+function renderSiteList(){sites.forEach((s,i)=>{const btn=document.createElement('button');btn.className='site-row';btn.dataset.id=s.id;btn.innerHTML='<span class="s-num">'+String(i+1).padStart(2,'0')+'</span><span><div class="s-name">'+escapeHtml(stxt(s))+'</div><div class="s-city">'+escapeHtml(s.address.split(',').slice(-2).join(',').trim())+'</div></span><span class="s-chevron">›</span>';btn.addEventListener('click',()=>select(s.id));$('sites').append(btn);const icon=L.divIcon({className:'',html:'<div class="pin" id="pin-'+s.id+'"><strong>'+String(i+1).padStart(2,'0')+'</strong></div>',iconSize:[38,38],iconAnchor:[19,36]});m[s.id]=L.marker(s.coords,{icon}).addTo(map).bindTooltip(s.short||s.name,{permanent:true,className:'place-label',direction:s.id==='traville'?'left':'right',offset:s.id==='traville'?[-20,-20]:[18,-22],opacity:1});m[s.id].on('click',()=>select(s.id));});}
+renderSiteList();
+const anchorHighlights={'NIST Gaithersburg':'NIST','NIH Bethesda Campus':'NIH','FDA White Oak Campus':'FDA','UMD College Park — JQI + QuICS':'UMD · Quantum','AstraZeneca — Gaithersburg':'AstraZeneca','Montgomery College — Germantown':'Montgomery College'};
+const labeledAnchors=[];
+anchors.forEach(a=>{const c=getCategory(a.category);
+  const marker=L.marker(a.coords,{icon:L.divIcon({className:'',html:'<span class="anchor '+c+'"></span>',iconSize:[13,13],iconAnchor:[7,7]})});
+  const label=anchorHighlights[a.name];
+  if(label){marker.bindTooltip(escapeHtml(label),{permanent:true,className:'anchor-permanent '+(c==='quantum'?'quantum-label':c==='life'?'life-label':''),direction:'right',offset:[11,0],opacity:1});labeledAnchors.push(marker);}
+  else marker.bindTooltip('<b>'+escapeHtml(a.name)+'</b><br>'+escapeHtml(a.description||a.detail||''),{direction:'top',offset:[0,-8]});
+  marker.bindPopup('<b>'+escapeHtml(a.name)+'</b><br><span style="font-size:12px;color:#597181">'+escapeHtml(a.description||a.detail||'Regional research anchor')+'</span>');
+  anchorLayer.addLayer(marker);
+});
+let labelsOn=true;
+function setLabels(v){labelsOn=v;$('labels-switch').classList.toggle('on',v);$('labels-switch').setAttribute('aria-checked',String(v));
+  for(const mkr of Object.values(m)){if(v)mkr.openTooltip();else mkr.closeTooltip();}
+  for(const a of labeledAnchors){if(v&&anchorsOn)a.openTooltip();else a.closeTooltip();}
+}
+$('labels-switch').addEventListener('click',()=>setLabels(!labelsOn));
+// Actual Montgomery County polygon from the county's GIS FeatureServer. No hand-drawn approximation.
+const countyQueryUrls=[
+ 'https://geohub.montgomerycountymd.gov/mapping1/rest/services/Boundaries/Montgomery_County_Boundary/FeatureServer/0/query',
+ 'https://gis4.montgomerycountymd.gov/arcgis/rest/services/general/MoCo_boundary/FeatureServer/0/query'
+];
+let countyLayer=null, countyOn=true;
+const countyPending=()=>{const el=document.getElementById('county-status');if(el)el.textContent='County outline loading…'};
+async function loadCountyBoundary(){countyPending();
+ for(const endpoint of countyQueryUrls){
+  try{
+    const qs=new URLSearchParams({where:'1=1',outFields:'*',returnGeometry:'true',outSR:'4326',maxAllowableOffset:'0.0006',geometryPrecision:'5',f:'geojson'});
+    const response=await fetch(endpoint+'?'+qs.toString(),{mode:'cors',signal:AbortSignal.timeout(12000)});
+    if(!response.ok)throw Error('HTTP '+response.status);
+    const data=await response.json();
+    if(!Array.isArray(data.features)||!data.features.length||!data.features[0].geometry)throw Error('No county polygon');
+    countyLayer=L.geoJSON(data,{interactive:false,style:{color:'#00568d',weight:4,opacity:.9,fillColor:'#0a96d4',fillOpacity:.04},pane:'overlayPane'});
+    if(countyOn)countyLayer.addTo(map);
+    const el=document.getElementById('county-status');if(el)el.textContent='Official county boundary · MC GIS';
+    return;
+  }catch(err){console.warn('Boundary source not available',endpoint,err.message)}
+ }
+ const el=document.getElementById('county-status');if(el)el.textContent='Boundary unavailable · source offline';
+}
+function setCounty(v){countyOn=v;$('county-switch').classList.toggle('on',v);$('county-switch').setAttribute('aria-checked',String(v));
+ if(countyLayer){if(v)countyLayer.addTo(map);else map.removeLayer(countyLayer)}
+}
+$('county-switch').addEventListener('click',()=>setCounty(!countyOn));
+loadCountyBoundary();
 const radius=L.circle(DB.sites.find(s=>s.id==='belward').coords,{radius:40233.6,color:'#00568d',weight:2,dashArray:'6 7',opacity:.85,fillColor:'#0a96d4',fillOpacity:.065,interactive:false});
 function fitAll(){map.fitBounds(L.latLngBounds(sites.map(s=>s.coords)),{paddingTopLeft:[window.innerWidth>700?335:40,95],paddingBottomRight:[window.innerWidth>700?120:30,window.innerWidth>700?70:240],maxZoom:11});}
-function setRadius(v){radiusOn=v;$('radius-switch').classList.toggle('on',v);$('radius-switch').setAttribute('aria-checked',String(v));$('top-radius').classList.toggle('on',v);$('top-radius').setAttribute('aria-pressed',String(v));$('talent').classList.toggle('hidden',!v);if(v){radius.addTo(map);map.fitBounds(radius.getBounds(),{paddingTopLeft:[window.innerWidth>700?340:30,100],paddingBottomRight:[window.innerWidth>700&&selected?400:35,65],maxZoom:11});}else{map.removeLayer(radius);if(!selected)fitAll();}}
-$('radius-switch').addEventListener('click',()=>setRadius(!radiusOn));$('top-radius').addEventListener('click',()=>setRadius(!radiusOn));$('anchor-switch').addEventListener('click',()=>{anchorsOn=!anchorsOn;$('anchor-switch').classList.toggle('on',anchorsOn);$('anchor-switch').setAttribute('aria-checked',String(anchorsOn));anchorsOn?anchorLayer.addTo(map):map.removeLayer(anchorLayer)});
+let talentDismissed=false;
+function showTalent(){talentDismissed=false;$('talent').classList.remove('hidden');$('talent-reopen').classList.add('hidden');}
+function dismissTalent(){talentDismissed=true;$('talent').classList.add('hidden');if(radiusOn)$('talent-reopen').classList.remove('hidden');}
+$('talent-dismiss').addEventListener('click',dismissTalent);
+$('talent-reopen').addEventListener('click',showTalent);
+function setRadius(v){
+ radiusOn=v;
+ $('radius-switch').classList.toggle('on',v);$('radius-switch').setAttribute('aria-checked',String(v));
+ $('top-radius').classList.toggle('on',v);$('top-radius').setAttribute('aria-pressed',String(v));
+ if(v){radius.addTo(map);showTalent();map.fitBounds(radius.getBounds(),{paddingTopLeft:[window.innerWidth>700?340:40,95],paddingBottomRight:[window.innerWidth>700&&selected?405:40,window.innerWidth>700?80:250],maxZoom:11,animate:true});}
+ else{map.removeLayer(radius);$('talent').classList.add('hidden');$('talent-reopen').classList.add('hidden');if(!selected)fitAll();}
+}
+$('radius-switch').addEventListener('click',()=>setRadius(!radiusOn));
+$('top-radius').addEventListener('click',()=>setRadius(!radiusOn));
+$('anchor-switch').addEventListener('click',()=>{
+ anchorsOn=!anchorsOn;$('anchor-switch').classList.toggle('on',anchorsOn);$('anchor-switch').setAttribute('aria-checked',String(anchorsOn));
+ anchorsOn?anchorLayer.addTo(map):map.removeLayer(anchorLayer);
+ if(anchorsOn&&!labelsOn)for(const marker of labeledAnchors)marker.closeTooltip();
+});
 const utilitiesMap={Electric:'⚡','Natural gas':'G',Water:'≈',Sewer:'↳'};
 function renderTab(){document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('on',x.dataset.tab===activeTab));const s=selected;if(!s)return;const out=$('info-body');if(activeTab==='opportunity'){out.innerHTML='<div class="stat-label">Development opportunity</div><div class="stat-value">'+escapeHtml((s.opportunity.match(/(?:\d[\d,.]*\s*(?:SF|acres)|\d[\d,.]*\s*million SF)/i)||[])[0]||'R&D potential')+'</div><div class="stat-detail">120,000–150,000 SF requirement · property-specific feasibility</div><div class="box"><strong>Ground conditions</strong><p>'+escapeHtml(s.physical)+'</p></div><div class="box"><strong>Development potential</strong><p>'+escapeHtml(s.opportunity)+'</p></div>';}else if(activeTab==='infrastructure'){out.innerHTML='<div class="stat-label" style="margin-bottom:10px">Reported conditions · not certified capacity</div>'+Object.entries(s.utilities).map(([k,v])=>'<div class="utility"><div class="utility-title"><span class="utility-icon">'+(utilitiesMap[k]||'•')+'</span>'+escapeHtml(k)+'</div><p>'+escapeHtml(v)+'</p></div>').join('')+'<div class="box"><p>Service lines alone do not guarantee firm capacity. Verify with the relevant utility prior to selection.</p></div>';}else{out.innerHTML='<div class="stat-label">Physical condition</div><div class="stat-value" style="font-size:23px">'+escapeHtml(s.status)+'</div><div class="box"><strong>Site preparation</strong><p>'+escapeHtml(s.physical)+'</p></div><div class="box"><strong>Entitlement / readiness</strong><p>'+escapeHtml(s.readiness)+'</p></div><div class="box"><strong>Delivery outlook</strong><p>'+escapeHtml(s.timeline)+'</p></div>';}out.scrollTop=0;}
 function select(id){selected=sites.find(x=>x.id===id);if(!selected)return;document.body.classList.add('details-on');$('info').classList.add('open');document.querySelectorAll('.site-row').forEach(x=>x.classList.toggle('selected',x.dataset.id===id));document.querySelectorAll('.pin').forEach(x=>x.classList.toggle('selected',x.id==='pin-'+id));$('info-index').textContent='Development opportunity / '+String(sites.indexOf(selected)+1).padStart(2,'0');$('info-title').textContent=selected.name;$('info-address').textContent=selected.address;$('info-status').textContent=selected.status;$('source').href=selected.sources[0]?.[1]||'#';activeTab='opportunity';renderTab();map.flyTo(selected.coords,12,{duration:.55});params.set('site',id);history.replaceState(null,'','?'+params.toString());}
 function close(){selected=null;$('info').classList.remove('open');document.body.classList.remove('details-on');document.querySelectorAll('.site-row').forEach(x=>x.classList.remove('selected'));document.querySelectorAll('.pin').forEach(x=>x.classList.remove('selected'));params.delete('site');history.replaceState(null,'',location.pathname+(params.size?'?'+params.toString():''));if(!radiusOn)fitAll();}
-$('close').addEventListener('click',close);document.querySelectorAll('[data-tab]').forEach(x=>x.addEventListener('click',()=>{activeTab=x.dataset.tab;renderTab();}));window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});window.addEventListener('resize',()=>map.invalidateSize());setTimeout(()=>{fitAll();const initial=params.get('site');if(sites.some(s=>s.id===initial))select(initial);},120);
+$('close').addEventListener('click',close);document.querySelectorAll('[data-tab]').forEach(x=>x.addEventListener('click',()=>{activeTab=x.dataset.tab;renderTab();}));window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('talent').classList.contains('hidden'))dismissTalent();else if(selected)close();}});window.addEventListener('resize',()=>map.invalidateSize());setTimeout(()=>{fitAll();const initial=params.get('site');if(sites.some(s=>s.id===initial))select(initial);},120);
 </script></body></html>
