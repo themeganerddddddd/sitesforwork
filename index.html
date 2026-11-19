@@ -157,7 +157,7 @@ const atccMarker=L.marker(atccCoordinates,{zIndexOffset:950,
    html:'<span class="atcc-map-pin"><span>HQ</span></span>',iconSize:[46,46],iconAnchor:[23,43]})
 }).addTo(map);
 atccMarker.bindTooltip('ATCC Headquarters',{permanent:false,className:'atcc-place-label',direction:'top',offset:[0,-35],opacity:1});
-atccMarker.bindPopup('<div class="atcc-map-popup"><strong>ATCC Headquarters</strong><span>10801 University Blvd.<br>Manassas, VA 20110</span><small>Reference location · Existing headquarters</small><a href="https://www.atcc.org/about-us" target="_blank" rel="noopener noreferrer">About ATCC ↗</a></div>',{maxWidth:260,minWidth:205});
+atccMarker.bindPopup('<div class="atcc-map-popup"><strong>ATCC Headquarters</strong><span>10801 University Blvd.<br>Manassas, VA 20110</span></div>',{maxWidth:260,minWidth:205});
 function focusATCC(){
  if(selected){
   selected=null;document.body.classList.remove('details-on');$('info').classList.remove('open');
