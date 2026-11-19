@@ -63,6 +63,11 @@ body.details-on .map-style{right:415px}
 .talent-job-label{font-size:12px;line-height:1.5;color:#285465;font-weight:900}
 .talent-job-label em{font-size:10px;color:#8297a2;font-weight:800;font-style:normal;letter-spacing:.3px;text-transform:uppercase;display:block}
 .talent-job strong{white-space:nowrap;font:700 23px 'Josefin Sans',sans-serif;color:#00568d}
+
+/* Federal institutions are bigger, with crisp readable labels that reveal on zoom. */
+.anchor-icon{border:0;background:transparent}
+.anchor.federal{width:23px!important;height:23px!important;border:4px solid #fff!important;background:#0a96d4!important;box-shadow:0 0 0 2px rgba(0,86,141,.6),0 4px 13px rgba(0,45,70,.48)!important}
+.leaflet-tooltip.anchor-permanent{font-size:11px!important;letter-spacing:.1px}
 </style>
 </head><body>
 <div id="map" aria-label="Interactive map of life and quantum science development sites"></div>
@@ -131,24 +136,58 @@ const m={};const anchorLayer=L.layerGroup().addTo(map);
 const params=new URLSearchParams(window.location.search);
 const getCategory=c=>c==='federal'?'federal':c==='quantum'?'quantum':c==='life'?'life':'talent';
 const stxt=s=>s.short||s.name;
-function renderSiteList(){sites.forEach((s,i)=>{const btn=document.createElement('button');btn.className='site-row';btn.dataset.id=s.id;btn.innerHTML='<span class="s-num">'+String(i+1).padStart(2,'0')+'</span><span><div class="s-name">'+escapeHtml(stxt(s))+'</div><div class="s-city">'+escapeHtml(s.address.split(',').slice(-2).join(',').trim())+'</div></span><span class="s-chevron">›</span>';btn.addEventListener('click',()=>select(s.id));$('sites').append(btn);const icon=L.divIcon({className:'',html:'<div class="pin" id="pin-'+s.id+'"><strong>'+String(i+1).padStart(2,'0')+'</strong></div>',iconSize:[38,38],iconAnchor:[19,36]});m[s.id]=L.marker(s.coords,{icon}).addTo(map).bindTooltip(s.short||s.name,{permanent:true,className:'place-label',direction:s.id==='traville'?'left':'right',offset:s.id==='traville'?[-20,-20]:[18,-22],opacity:1});m[s.id].on('click',()=>select(s.id));});}
+function renderSiteList(){sites.forEach((s,i)=>{const btn=document.createElement('button');btn.className='site-row';btn.dataset.id=s.id;btn.innerHTML='<span class="s-num">'+String(i+1).padStart(2,'0')+'</span><span><div class="s-name">'+escapeHtml(stxt(s))+'</div><div class="s-city">'+escapeHtml(s.address.split(',').slice(-2).join(',').trim())+'</div></span><span class="s-chevron">›</span>';btn.addEventListener('click',()=>select(s.id));$('sites').append(btn);const icon=L.divIcon({className:'',html:'<div class="pin" id="pin-'+s.id+'"><strong>'+String(i+1).padStart(2,'0')+'</strong></div>',iconSize:[38,38],iconAnchor:[19,36]});m[s.id]=L.marker(s.coords,{icon}).addTo(map).bindTooltip(s.short||s.name,{permanent:false,className:'place-label',direction:s.id==='traville'?'left':'right',offset:s.id==='traville'?[-20,-20]:[18,-22],opacity:1});m[s.id].on('click',()=>select(s.id));});}
 renderSiteList();
-const anchorHighlights={'NIST Gaithersburg':'NIST','NIH Bethesda Campus':'NIH','FDA White Oak Campus':'FDA','UMD College Park — JQI + QuICS':'UMD · Quantum','AstraZeneca — Gaithersburg':'AstraZeneca','Montgomery College — Germantown':'Montgomery College'};
-const labeledAnchors=[];
-anchors.forEach(a=>{const c=getCategory(a.category);
-  const marker=L.marker(a.coords,{icon:L.divIcon({className:'',html:'<span class="anchor '+c+'"></span>',iconSize:[13,13],iconAnchor:[7,7]})});
-  const label=anchorHighlights[a.name];
-  if(label){marker.bindTooltip(escapeHtml(label),{permanent:true,className:'anchor-permanent '+(c==='quantum'?'quantum-label':c==='life'?'life-label':''),direction:'right',offset:[11,0],opacity:1});labeledAnchors.push(marker);}
-  else marker.bindTooltip('<b>'+escapeHtml(a.name)+'</b><br>'+escapeHtml(a.description||a.detail||''),{direction:'top',offset:[0,-8]});
-  marker.bindPopup('<b>'+escapeHtml(a.name)+'</b><br><span style="font-size:12px;color:#597181">'+escapeHtml(a.description||a.detail||'Regional research anchor')+'</span>');
+// Site labels appear at local scale; major institutions appear before smaller anchors.
+const anchorHighlights={
+'NIST Gaithersburg':'NIST',
+'NIH Bethesda Campus':'NIH',
+'FDA White Oak Campus':'FDA',
+'UMD College Park — JQI + QuICS':'UMD · Quantum',
+'AstraZeneca — Gaithersburg':'AstraZeneca',
+'Montgomery College — Germantown':'Montgomery College'
+};
+const anchorLabels=[];
+const majorFederal=new Set(['NIST Gaithersburg','NIH Bethesda Campus','FDA White Oak Campus']);
+anchors.forEach(a=>{
+  const c=getCategory(a.category),federal=c==='federal';
+  const diameter=federal?23:13;
+  const marker=L.marker(a.coords,{icon:L.divIcon({
+    className:'anchor-icon',html:'<span class="anchor '+c+'"></span>',
+    iconSize:[diameter,diameter],iconAnchor:[Math.floor(diameter/2),Math.floor(diameter/2)]
+  })});
+  const highlighted=anchorHighlights[a.name];
+  const label=highlighted||a.name.replace(/ — .*/, '');
+  const minZoom=majorFederal.has(a.name)?10:highlighted?12:federal?13:14;
+  marker.bindTooltip(escapeHtml(label),{
+    permanent:false,className:'anchor-permanent '+(c==='quantum'?'quantum-label':c==='life'?'life-label':''),
+    direction:'right',offset:[federal?16:11,0],opacity:1
+  });
+  marker.bindPopup('<b>'+escapeHtml(a.name)+'</b><br><span style="font-size:12px;color:#597181">'+escapeHtml(a.why||a.description||a.detail||'Regional research anchor')+'</span>');
+  anchorLabels.push({marker,minZoom});
   anchorLayer.addLayer(marker);
 });
 let labelsOn=true;
-function setLabels(v){labelsOn=v;$('labels-switch').classList.toggle('on',v);$('labels-switch').setAttribute('aria-checked',String(v));
-  for(const mkr of Object.values(m)){if(v)mkr.openTooltip();else mkr.closeTooltip();}
-  for(const a of labeledAnchors){if(v&&anchorsOn)a.openTooltip();else a.closeTooltip();}
+function refreshLabels(){
+  const z=map.getZoom();
+  for(const [id,marker] of Object.entries(m)){
+    if(labelsOn&&(z>=11||(selected&&selected.id===id)))marker.openTooltip();
+    else marker.closeTooltip();
+  }
+  for(const {marker,minZoom} of anchorLabels){
+    if(labelsOn&&anchorsOn&&z>=minZoom)marker.openTooltip();
+    else marker.closeTooltip();
+  }
 }
+function setLabels(v){
+  labelsOn=v;
+  $('labels-switch').classList.toggle('on',v);
+  $('labels-switch').setAttribute('aria-checked',String(v));
+  refreshLabels();
+}
+map.on('zoomend',refreshLabels);
 $('labels-switch').addEventListener('click',()=>setLabels(!labelsOn));
+refreshLabels();
 // Actual Montgomery County polygon from the county's GIS FeatureServer. No hand-drawn approximation.
 const countyQueryUrls=[
  'https://geohub.montgomerycountymd.gov/mapping1/rest/services/Boundaries/Montgomery_County_Boundary/FeatureServer/0/query',
@@ -196,11 +235,11 @@ $('top-radius').addEventListener('click',()=>setRadius(!radiusOn));
 $('anchor-switch').addEventListener('click',()=>{
  anchorsOn=!anchorsOn;$('anchor-switch').classList.toggle('on',anchorsOn);$('anchor-switch').setAttribute('aria-checked',String(anchorsOn));
  anchorsOn?anchorLayer.addTo(map):map.removeLayer(anchorLayer);
- if(anchorsOn&&!labelsOn)for(const marker of labeledAnchors)marker.closeTooltip();
+ refreshLabels();
 });
 const utilitiesMap={Electric:'⚡','Natural gas':'G',Water:'≈',Sewer:'↳'};
 function renderTab(){document.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('on',x.dataset.tab===activeTab));const s=selected;if(!s)return;const out=$('info-body');if(activeTab==='opportunity'){out.innerHTML='<div class="stat-label">Development opportunity</div><div class="stat-value">'+escapeHtml((s.opportunity.match(/(?:\d[\d,.]*\s*(?:SF|acres)|\d[\d,.]*\s*million SF)/i)||[])[0]||'R&D potential')+'</div><div class="stat-detail">120,000–150,000 SF requirement · property-specific feasibility</div><div class="box"><strong>Ground conditions</strong><p>'+escapeHtml(s.physical)+'</p></div><div class="box"><strong>Development potential</strong><p>'+escapeHtml(s.opportunity)+'</p></div>';}else if(activeTab==='infrastructure'){out.innerHTML='<div class="stat-label" style="margin-bottom:10px">Reported conditions · not certified capacity</div>'+Object.entries(s.utilities).map(([k,v])=>'<div class="utility"><div class="utility-title"><span class="utility-icon">'+(utilitiesMap[k]||'•')+'</span>'+escapeHtml(k)+'</div><p>'+escapeHtml(v)+'</p></div>').join('')+'<div class="box"><p>Service lines alone do not guarantee firm capacity. Verify with the relevant utility prior to selection.</p></div>';}else{out.innerHTML='<div class="stat-label">Physical condition</div><div class="stat-value" style="font-size:23px">'+escapeHtml(s.status)+'</div><div class="box"><strong>Site preparation</strong><p>'+escapeHtml(s.physical)+'</p></div><div class="box"><strong>Entitlement / readiness</strong><p>'+escapeHtml(s.readiness)+'</p></div><div class="box"><strong>Delivery outlook</strong><p>'+escapeHtml(s.timeline)+'</p></div>';}out.scrollTop=0;}
-function select(id){selected=sites.find(x=>x.id===id);if(!selected)return;document.body.classList.add('details-on');$('info').classList.add('open');document.querySelectorAll('.site-row').forEach(x=>x.classList.toggle('selected',x.dataset.id===id));document.querySelectorAll('.pin').forEach(x=>x.classList.toggle('selected',x.id==='pin-'+id));$('info-index').textContent='Development opportunity / '+String(sites.indexOf(selected)+1).padStart(2,'0');$('info-title').textContent=selected.name;$('info-address').textContent=selected.address;$('info-status').textContent=selected.status;$('source').href=selected.sources[0]?.[1]||'#';activeTab='opportunity';renderTab();map.flyTo(selected.coords,12,{duration:.55});params.set('site',id);history.replaceState(null,'','?'+params.toString());}
-function close(){selected=null;$('info').classList.remove('open');document.body.classList.remove('details-on');document.querySelectorAll('.site-row').forEach(x=>x.classList.remove('selected'));document.querySelectorAll('.pin').forEach(x=>x.classList.remove('selected'));params.delete('site');history.replaceState(null,'',location.pathname+(params.size?'?'+params.toString():''));if(!radiusOn)fitAll();}
+function select(id){selected=sites.find(x=>x.id===id);if(!selected)return;document.body.classList.add('details-on');$('info').classList.add('open');document.querySelectorAll('.site-row').forEach(x=>x.classList.toggle('selected',x.dataset.id===id));document.querySelectorAll('.pin').forEach(x=>x.classList.toggle('selected',x.id==='pin-'+id));$('info-index').textContent='Development opportunity / '+String(sites.indexOf(selected)+1).padStart(2,'0');$('info-title').textContent=selected.name;$('info-address').textContent=selected.address;$('info-status').textContent=selected.status;$('source').href=selected.sources[0]?.[1]||'#';activeTab='opportunity';renderTab();map.flyTo(selected.coords,12,{duration:.55});refreshLabels();params.set('site',id);history.replaceState(null,'','?'+params.toString());}
+function close(){selected=null;$('info').classList.remove('open');document.body.classList.remove('details-on');document.querySelectorAll('.site-row').forEach(x=>x.classList.remove('selected'));document.querySelectorAll('.pin').forEach(x=>x.classList.remove('selected'));params.delete('site');history.replaceState(null,'',location.pathname+(params.size?'?'+params.toString():''));if(!radiusOn)fitAll();refreshLabels();}
 $('close').addEventListener('click',close);document.querySelectorAll('[data-tab]').forEach(x=>x.addEventListener('click',()=>{activeTab=x.dataset.tab;renderTab();}));window.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!$('talent').classList.contains('hidden'))dismissTalent();else if(selected)close();}});window.addEventListener('resize',()=>map.invalidateSize());setTimeout(()=>{fitAll();const initial=params.get('site');if(sites.some(s=>s.id===initial))select(initial);},120);
 </script></body></html>
