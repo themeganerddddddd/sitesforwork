@@ -1,0 +1,37 @@
+name: Generate accurate six-site maps
+
+on:
+  push:
+    branches:
+      - accurate-six-site-map-exports
+    paths:
+      - 'map_exports/generate_maps.py'
+      - '.github/workflows/accurate_six_site_maps.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  map-export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install map dependencies
+        run: python -m pip install --quiet requests numpy matplotlib pyproj
+      - name: Build official boundary and street-network maps
+        run: python map_exports/generate_maps.py
+      - name: Commit PNG screenshots into the isolated map-export branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add maps/accurate_six_sites_outline.png maps/accurate_six_sites_streets.png
+          git diff --cached --quiet || (git commit -m "Publish georeferenced six-site map screenshots" && git push)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: accurate-six-site-maps
+          path: maps/*.png
