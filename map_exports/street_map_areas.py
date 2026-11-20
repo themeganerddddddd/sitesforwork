@@ -113,12 +113,12 @@ def font(sz,bold=False):
 F_TITLE=font(43,True);F_OVER=font(18,True);F_NAME=font(24,True);F_AREA=font(20,False);F_PIN=font(19,True);F_NOTE=font(17,False)
 # Site coordinates and mailing/local community areas from the six-site source project.
 sites=[
-  {"id":"01","name":"BELWARD CAMPUS","area":"Rockville / Shady Grove","lat":39.10434,"lon":-77.216,"shift":(-340,-145)},
+  {"id":"01","name":"BELWARD CAMPUS","area":"Rockville","lat":39.10434,"lon":-77.216,"shift":(-340,-145)},
   {"id":"02","name":"INSTITUTE FOR HEALTH COMPUTING","area":"North Bethesda","lat":39.0485,"lon":-77.1141,"shift":(65,95)},
   {"id":"03","name":"COMSAT","area":"Clarksburg","lat":39.220643,"lon":-77.275896,"shift":(-280,-130)},
-  {"id":"04","name":"VIVA WHITE OAK","area":"White Oak / Silver Spring","lat":39.0465,"lon":-76.9715,"shift":(70,-65)},
-  {"id":"05","name":"TRAVILLE GATEWAY","area":"Rockville / Traville","lat":39.0933,"lon":-77.2042,"shift":(-365,60)},
-  {"id":"06","name":"PINKNEY INNOVATION COMPLEX","area":"Germantown (PIC MC)","lat":39.184444,"lon":-77.249722,"shift":(70,25)}
+  {"id":"04","name":"VIVA WHITE OAK","area":"Silver Spring","lat":39.0465,"lon":-76.9715,"shift":(70,-65)},
+  {"id":"05","name":"TRAVILLE GATEWAY","area":"Rockville","lat":39.0933,"lon":-77.2042,"shift":(-365,60)},
+  {"id":"06","name":"PINKNEY INNOVATION COMPLEX","area":"Germantown","lat":39.184444,"lon":-77.249722,"shift":(70,25)}
 ]
 def rounded_card(img,d,xy,site):
     x,y=xy
@@ -142,11 +142,7 @@ def draw_export(provider,name):
         if len(points)<4:continue
         draw.line(points+[points[0]],fill=(255,255,255,245),width=10,joint="curve")
         draw.line(points+[points[0]],fill=(0,86,141,252),width=5,joint="curve")
-    # White header band with a simple accurate geographic description, not an invented map.
-    draw.rounded_rectangle([65,38,940,145],radius=19,fill=(255,255,255,240))
-    draw.rectangle([65,38,75,145],fill=GOLD)
-    draw.text((95,47),"SIX DEVELOPMENT SITES",font=F_TITLE,fill=NAVY)
-    draw.text((98,106),"County outline  ·  Site and community labels",font=F_OVER,fill=(91,110,119))
+    # Keep the underlying real street map fully visible; no title banner overlays it.
     for site in sites:
         cx,cy=to_image(*px(site["lon"],site["lat"]))
         bx=cx+site["shift"][0];by=cy+site["shift"][1]
