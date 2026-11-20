@@ -1,6 +1,6 @@
 """Export literal street-basemap screenshots with the official county boundary,
 the six existing development site coordinate pins, and their city/area names.
-Data: Montgomery County GIS (boundary); CARTO (street map tiles)."""
+Data: Montgomery County GIS (boundary); Esri World Street / Topographic Map tiles."""
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import io, math, time, json
 from pathlib import Path
@@ -68,9 +68,9 @@ def get_tile(task):
     provider,x,y=task
     if provider=="voyager":
         # CARTO's full-featured literal street background including town and road labels.
-        url=f"https://a.basemaps.cartocdn.com/rastertiles/voyager/{Z}/{x}/{y}.png"
+        url=f"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{Z}/{y}/{x}"
     elif provider=="positron":
-        url=f"https://a.basemaps.cartocdn.com/light_all/{Z}/{x}/{y}.png"
+        url=f"https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{Z}/{y}/{x}"
     else:
         url=f"https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{Z}/{y}/{x}"
     for attempt in range(3):
@@ -95,6 +95,13 @@ def compose_tiles(provider):
             canvas.paste(tile,((x-first_tile_x)*256,(y-first_tile_y)*256))
     print(provider,"failures",failures,"of",len(jobs),flush=True)
     if failures>max(1,int(len(jobs)*.07)):raise RuntimeError("Too many unavailable real street tiles. Refusing to draw fictional streets.")
+    # Detect uniform license/error placeholder tiles instead of treating them as actual cartography.
+    samples=[]
+    for x,y in tiles[::max(1,len(tiles)//16)]:
+        left=(x-first_tile_x)*256;top=(y-first_tile_y)*256
+        samples.append(canvas.crop((left,top,left+256,top+256)).tobytes()[::523])
+    if len(set(samples))<=2:raise RuntimeError("Basemap responded with repetitive placeholder tiles, not real streets.")
+
     ox=source_left-first_tile_x*256
     oy=source_top-first_tile_y*256
     left,top=int(round(ox)),int(round(oy))
@@ -162,7 +169,7 @@ def draw_export(provider,name):
         bb=draw.textbbox((0,0),site["id"],font=F_PIN)
         draw.text((cx-(bb[2]-bb[0])/2,cy-(bb[3]-bb[1])/2-bb[1]),site["id"],font=F_PIN,fill="white")
     draw.rounded_rectangle([62,H-79,1440,H-30],radius=13,fill=(255,255,255,232))
-    draw.text((82,H-69),"Source: county GIS boundary · CARTO/OSM street tiles · approximate site coordinates",font=F_NOTE,fill=(60,82,92))
+    draw.text((82,H-69),"Source: county GIS boundary · Esri World Street/Topo basemap · approximate site coordinates",font=F_NOTE,fill=(60,82,92))
     final=Image.alpha_composite(basemap,overlay).convert("RGB")
     path=OUT/name;final.save(path,optimize=True)
     print("SAVED",path,path.stat().st_size,flush=True)
